@@ -2,7 +2,7 @@ const Employee = require("../models/Employee");
 
 const getEmployees = async (req, res) => {
     try {
-      const employees = await Employee.find().populate('department');
+      const employees = await Employee.find({ userId: req.user.id });
       res.json(employees);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -10,9 +10,9 @@ const getEmployees = async (req, res) => {
   };
 
 const addEmployee = async (req, res) => {
-    const { firstName, lastName, email, department, salary } = req.body;
+    const { name, email, department, salary, phone } = req.body;
     try {
-      const employee = await Employee.create({ firstName, lastName, email, department, salary });
+      const employee = await Employee.create({ userId: req.user.id, name, email, department, salary, phone });
       res.status(201).json(employee);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -20,13 +20,12 @@ const addEmployee = async (req, res) => {
 };
 
 const updateEmployee = async (req, res) => {
-    const { firstName, lastName, email, department, salary } = req.body;
+    const { name, email, department, salary } = req.body;
     try {
       const employee = await Employee.findById(req.params.id);
       if (!employee) return res.status(404).json({ message: 'Employee not found' });
   
-      employee.firstName = firstName || employee.firstName;
-      employee.lastName = lastName || employee.lastName;
+      employee.name = name || employee.name;
       employee.email = email || employee.email;
       employee.department = department || employee.department;
       employee.salary = salary ?? employee.salary;
