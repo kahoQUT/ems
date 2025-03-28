@@ -8,6 +8,7 @@ const Employees = () => {
   const { user } = useAuth();
   const [employees, setEmployees] = useState([]);
   const [editingEmployee, setEditingEmployee] = useState(null);
+  const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -16,6 +17,10 @@ const Employees = () => {
           headers: { Authorization: `Bearer ${user.token}` },
         });
         setEmployees(response.data);
+        const res = await axiosInstance.get('/api/departments', {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+        setDepartments(res.data);
       } catch (error) {
         alert('Failed to fetch employees.'+error);
       }
@@ -30,6 +35,7 @@ const Employees = () => {
         setEmployees={setEmployees}
         editingEmployee={editingEmployee}
         setEditingEmployee={setEditingEmployee}
+        departments={departments}
       />
       <EmployeeList employees={employees} setEmployees={setEmployees} setEditingEmployee={setEditingEmployee} />
     </div>
