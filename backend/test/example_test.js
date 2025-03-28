@@ -94,6 +94,7 @@ describe('Update Function Test', () => {
       department: new mongoose.Types.ObjectId(),
       salary: 80000, 
       email: "old@1.com",
+      phone: "12341234",
       save: sinon.stub().resolvesThis(), // Mock save method
     };
     // Stub Employee.findById to return mock employee
