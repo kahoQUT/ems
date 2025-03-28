@@ -10,6 +10,7 @@ const EmployeeList = ({ employees, setEmployees, setEditingEmployee }) => {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setEmployees(employees.filter((employee) => employee._id !== employeeId));
+      alert('Delete Successfully!');
     } catch (error) {
       alert('Failed to delete employee.');
     }
@@ -21,6 +22,7 @@ const EmployeeList = ({ employees, setEmployees, setEditingEmployee }) => {
         <div key={employee._id} className="bg-gray-100 p-4 mb-4 rounded shadow">
           <h2 className="font-bold">{employee.name}</h2>
           <p>Email: {employee.email}</p>
+          <p>Email: {employee.phone}</p>
           <p>Department: {employee.department?.name || 'Unassigned'}</p>
           <p>Salary: ${employee.salary}</p>
           <div className="mt-2">
