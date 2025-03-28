@@ -25,12 +25,11 @@ describe('addEmployee Function Test', () => {
   it('should create a new employee successfully', async () => {
     // Mock request data
     const req = {
-      user: { id: new mongoose.Types.ObjectId() },
       body: { name: "Ben Davis", department: new mongoose.Types.ObjectId(), salary: 70000, email: "1@1.com", phone: '12341234' }
     };
 
     // Mock employee that would be created
-    const createdEmployee = { _id: new mongoose.Types.ObjectId(), ...req.body, userId: req.user.id };
+    const createdEmployee = { _id: new mongoose.Types.ObjectId(), ...req.body, populate: sinon.stub().resolvesThis()};
 
     // Stub Employee.create to return the created
     const createStub = sinon.stub(Employee, 'create').resolves(createdEmployee);
@@ -45,7 +44,7 @@ describe('addEmployee Function Test', () => {
     await addEmployee(req, res);
 
     // Assertions
-    expect(createStub.calledOnceWith({ userId: req.user.id, ...req.body })).to.be.true;
+    expect(createStub.calledOnceWith(req.body)).to.be.true;
     expect(res.status.calledWith(201)).to.be.true;
     expect(res.json.calledWith(createdEmployee)).to.be.true;
 
@@ -96,6 +95,7 @@ describe('Update Function Test', () => {
       email: "old@1.com",
       phone: "12341234",
       save: sinon.stub().resolvesThis(), // Mock save method
+      populate: sinon.stub().resolvesThis()
     };
     // Stub Employee.findById to return mock employee
     const findByIdStub = sinon.stub(Employee, 'findById').resolves(existingEmployee);
@@ -166,20 +166,19 @@ describe('Update Function Test', () => {
 describe('GetEmployee Function Test', () => {
 
   it('should return employees for the given user', async () => {
-    // Mock user ID
-    const userId = new mongoose.Types.ObjectId();
 
     // Mock employees data
     const employees = [
-      { _id: new mongoose.Types.ObjectId(), email: "1@1.com", userId },
-      { _id: new mongoose.Types.ObjectId(), email: "2@2.com", userId }
+      { _id: new mongoose.Types.ObjectId(), email: "1@1.com", department: { name: 'HR' } },
+      { _id: new mongoose.Types.ObjectId(), email: "2@2.com", department: { name: 'HR' } }
     ];
 
     // Stub employee.find to return mock employees
-    const findStub = sinon.stub(Employee, 'find').resolves(employees);
+    const populateStub = sinon.stub().resolves(employees);
+    const findStub = sinon.stub(Employee, 'find').returns({ populate: populateStub });
 
     // Mock request & response
-    const req = { user: { id: userId } };
+    const req = {};
     const res = {
       json: sinon.spy(),
       status: sinon.stub().returnsThis()
@@ -189,7 +188,8 @@ describe('GetEmployee Function Test', () => {
     await getEmployees(req, res);
 
     // Assertions
-    expect(findStub.calledOnceWith({ userId })).to.be.true;
+    expect(findStub.calledOnce).to.be.true;
+    expect(populateStub.calledWith('department')).to.be.true;
     expect(res.json.calledWith(employees)).to.be.true;
     expect(res.status.called).to.be.false; // No error status should be set
 
