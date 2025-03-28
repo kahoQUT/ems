@@ -1,8 +1,6 @@
 import { useAuth } from '../context/AuthContext';
-import axiosInstance from '../axiosConfig';
 
 const DepartmentList = ({ departments, setDepartments, setEditingDepartment }) => {
-  const { user } = useAuth();
 
   return (
     <div>
