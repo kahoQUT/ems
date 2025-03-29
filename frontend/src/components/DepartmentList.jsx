@@ -1,5 +1,3 @@
-import { useAuth } from '../context/AuthContext';
-
 const DepartmentList = ({ departments, setDepartments, setEditingDepartment }) => {
 
   return (
