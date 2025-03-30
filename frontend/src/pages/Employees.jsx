@@ -3,13 +3,15 @@ import axiosInstance from '../axiosConfig';
 import EmployeeForm from '../components/EmployeeForm';
 import EmployeeList from '../components/EmployeeList';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Employees = () => {
   const { user } = useAuth();
   const [employees, setEmployees] = useState([]);
   const [editingEmployee, setEditingEmployee] = useState(null);
   const [departments, setDepartments] = useState([]);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchEmployees = async () => {
       try {

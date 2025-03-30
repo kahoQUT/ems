@@ -3,12 +3,14 @@ import axiosInstance from '../axiosConfig';
 import DepartmentForm from '../components/DepartmentForm';
 import DepartmentList from '../components/DepartmentList';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Departments = () => {
   const { user } = useAuth();
   const [departments, setDepartments] = useState([]);
   const [editingDepartment, setEditingDepartment] = useState(null);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     if (!user || !user.token) return;
 

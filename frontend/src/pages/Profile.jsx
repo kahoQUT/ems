@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const { user } = useAuth(); // Access user token from context
@@ -11,7 +12,8 @@ const Profile = () => {
     address: '',
   });
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     // Fetch profile data from the backend
     const fetchProfile = async () => {
