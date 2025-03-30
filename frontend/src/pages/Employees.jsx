@@ -11,7 +11,7 @@ const Employees = () => {
   const [editingEmployee, setEditingEmployee] = useState(null);
   const [departments, setDepartments] = useState([]);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -29,7 +29,7 @@ const Employees = () => {
       }
     };
     fetchEmployees();
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <div className="container mx-auto p-6">

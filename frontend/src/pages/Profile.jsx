@@ -13,7 +13,7 @@ const Profile = () => {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     // Fetch profile data from the backend
     const fetchProfile = async () => {
@@ -37,7 +37,7 @@ const Profile = () => {
     };
 
     if (user) fetchProfile();
-  }, [user]);
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

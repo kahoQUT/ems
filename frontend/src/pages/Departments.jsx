@@ -10,7 +10,7 @@ const Departments = () => {
   const [departments, setDepartments] = useState([]);
   const [editingDepartment, setEditingDepartment] = useState(null);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!user || !user.token) return;
 
@@ -27,7 +27,7 @@ const Departments = () => {
       }
     };
     fetchDepartments();
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <div className="container mx-auto p-6">
