@@ -21,9 +21,9 @@ const Departments = () => {
       } catch (error) {
         console.error('Error fetching departments:', error);
         alert('Failed to fetch departments.');
+        navigate('/login');
       }
     };
-
     fetchDepartments();
   }, [user]);
 

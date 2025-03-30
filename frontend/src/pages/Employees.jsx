@@ -22,7 +22,8 @@ const Employees = () => {
         });
         setDepartments(res.data);
       } catch (error) {
-        alert('Failed to fetch employees.'+error);
+        alert('Failed to fetch employees.');
+        navigate('/login');
       }
     };
     fetchEmployees();

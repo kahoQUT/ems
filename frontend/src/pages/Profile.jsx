@@ -28,8 +28,9 @@ const Profile = () => {
         });
       } catch (error) {
         alert('Failed to fetch profile. Please try again.');
+        navigate('/login');
       } finally {
-        setLoading(false);
+        setLoading(false); 
       }
     };
 
